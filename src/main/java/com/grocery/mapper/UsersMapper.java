@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface UsersMapper {
     List<Users> getProfiles();
+
+    int registerUser(Users user);
 }

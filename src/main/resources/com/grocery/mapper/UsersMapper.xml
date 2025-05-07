@@ -5,4 +5,12 @@
     <select id="getProfiles" resultType="com.grocery.model.Users">
         SELECT * FROM USERS
     </select>
+
+    <insert id="registerUser" parameterType="com.grocery.model.Users"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO USERS (FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD, ROLE)
+        VALUES
+        (#{first_name}, #{last_name}, #{username}, #{email}, #{password}, #{role})
+    </insert>
+
 </mapper>

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UsersDao {
     List<Users> getProfiles();
+
+    int registerUser(Users user);
 }

@@ -19,4 +19,10 @@ public class UsersDaoImpl implements UsersDao {
     public List<Users> getProfiles() {
         return usersMapper.getProfiles();
     }
+
+    @Override
+    public  int registerUser(Users user){
+        return usersMapper.registerUser(user);
+    }
+
 }
