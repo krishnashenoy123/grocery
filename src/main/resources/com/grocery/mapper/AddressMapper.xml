@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grocery.mapper.AddressMapper">
+    <select id="getAddresses" resultType="com.grocery.model.Address">
+        SELECT * FROM ADDRESS
+    </select>
+
+    <insert id="addAddress" parameterType="com.grocery.model.Address"
+        useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ADDRESS(USER_ID, STREET, CITY, STATE, PINCODE)
+        VALUES
+        (#{user_id}, #{street}, #{city}, #{state}, #{pin_code})
+    </insert>
+</mapper>
