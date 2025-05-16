@@ -23,4 +23,19 @@ public class AddressDaoImpl implements AddressDao {
     public int addAddress(Address address) {
         return addressMapper.addAddress(address);
     }
+
+    @Override
+    public int updateAddress(Address address) {
+        return addressMapper.updateAddress(address);
+    }
+
+    @Override
+    public Address getAddressByParams(int user_id, int id) {
+        return addressMapper.getAddressByParams(user_id, id);
+    }
+
+    @Override
+    public int deleteAddress(int id) {
+        return addressMapper.deleteAddress(id);
+    }
 }

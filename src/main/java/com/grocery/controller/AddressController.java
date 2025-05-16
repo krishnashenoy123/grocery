@@ -5,12 +5,8 @@ import com.grocery.service.AddressService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,6 +48,47 @@ public class AddressController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/addresses")
+    public ResponseEntity<?> updateAddress(@RequestBody Address address){
+        if(address == null || address.getCity() == null || address.getStreet() == null
+                || address.getState() == null || address.getPin_code() == null){
+            return ResponseEntity.badRequest().body("Missing values for Street, City, State or Pin Code");
+        }
+        try{
+            int rows = addressService.updateAddress(address);
+            if(rows > 0){
+                Address updatedAddress = addressService.getAddressByParams(address.getUser_id(), address.getId());
+                return ResponseEntity.status(HttpStatus.CREATED).body(updatedAddress);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Could not update address due to server error.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Validation Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected Error: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/addresses/{id}")
+    public ResponseEntity<?> deleteAddress(@PathVariable int id) {
+        if(id < 1){
+            return ResponseEntity.badRequest().body("Id cannot be empty or negative");
+        }
+        try {
+            int rowsDeleted = addressService.deleteAddress(id);
+            if (rowsDeleted > 0) {
+                return ResponseEntity.ok("Address deleted successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Address not found with id: " + id);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting address: " + e.getMessage());
         }
     }
 

@@ -12,4 +12,24 @@
         VALUES
         (#{user_id}, #{street}, #{city}, #{state}, #{pin_code})
     </insert>
+
+    <update id="updateAddress" parameterType="com.grocery.model.Address">
+        UPDATE ADDRESS
+        SET
+        STREET = #{street},
+        CITY = #{city},
+        STATE = #{state},
+        PINCODE = #{pin_code}
+        WHERE USER_ID = #{user_id}
+        and ID = #{id}
+    </update>
+
+    <select id="getAddressByParams" resultType="com.grocery.model.Address">
+        SELECT * FROM ADDRESS WHERE USER_ID = #{user_id} and ID = #{id}
+    </select>
+
+    <delete id="deleteAddress" parameterType="int">
+        DELETE FROM ADDRESS WHERE ID = #{id}
+    </delete>
+
 </mapper>
