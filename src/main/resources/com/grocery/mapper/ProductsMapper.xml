@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grocery.mapper.ProductsMapper">
+    <resultMap id="ProductResultMap" type="com.grocery.model.Product">
+        <id property="productId" column="id"/>
+        <result property="productName" column="name"/>
+        <result property="productDesc" column="description"/>
+        <result property="price" column="price"/>
+        <result property="stock" column="stock"/>
+        <result property="category_id" column="category_id"/>
+        <result property="image_url" column="image_url"/>
+        <result property="created_d" column="created_at"/>
+    </resultMap>
+
+    <select id="getAllProducts" resultMap="ProductResultMap">
+        SELECT * FROM PRODUCTS
+    </select>
+
+    <update id="updateProduct" parameterType="com.grocery.model.Product">
+        update products
+        set
+        name = #{productName},
+        description = #{productDesc},
+        price = #{price},
+        stock = #{stock},
+        category_id = #{category_id},
+        image_url = #{image_url}
+        WHERE id = #{productId}
+    </update>
+
+    <select id="getProductByParam" resultMap="ProductResultMap">
+        SELECT * FROM PRODUCTS WHERE ID = #{productId}
+    </select>
+
+    <insert id="addProduct" parameterType="com.grocery.model.Product"
+            useGeneratedKeys="true" keyProperty="productId">
+        INSERT INTO products (name, description, price, stock, category_id, image_url)
+        VALUES
+        (#{productName}, #{productDesc}, #{price}, #{stock}, #{category_id}, #{image_url})
+    </insert>
+
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM products WHERE id = #{productId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grocery.mapper.OrderItemsMapper">
+
+    <resultMap id="OrderItemResultMap" type="com.grocery.model.OrderItems">
+        <id property="orderItemId" column="id"/>
+        <result property="order_id" column="order_id"/>
+        <result property="product_id" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+    </resultMap>
+    
+    <select id="getAllOrderItems" resultMap="OrderItemResultMap">
+        SELECT * FROM ORDER_ITEMS
+    </select>
+    
+    <select id="getOrderItemsByParam" resultMap="OrderItemResultMap">
+        SELECT * FROM ORDER_ITEMS WHERE id = #{orderItemId}
+    </select>
+    
+    <update id="updateOrderItems" parameterType="com.grocery.model.OrderItems">
+        UPDATE ORDER_ITEMS
+        set
+            product_id = #{product_id},
+            quantity = #{quantity},
+            price = #{price}
+        WHERE id = #{orderItemId}
+    </update>
+
+    <insert id="addOrderItems" parameterType="com.grocery.model.OrderItems"
+            useGeneratedKeys="true" keyProperty="orderItemId">
+        INSERT INTO ORDER_ITEMS (order_id, product_id, quantity, price)
+        VALUES
+        (#{order_id}, #{product_id}, #{quantity}, #{price})
+    </insert>
+
+    <delete id="deleteOrderItems" parameterType="int">
+        DELETE FROM ORDER_ITEMS WHERE id = #{orderItemId}
+    </delete>
+</mapper>

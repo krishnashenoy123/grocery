@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grocery.mapper.OrdersMapper">
+    <resultMap id="OrderResultMap" type="com.grocery.model.Order">
+        <id property="order_id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="order_price" column="total_price"/>
+        <result property="order_status" column="status"/>
+        <result property="order_date" column="created_at"/>
+    </resultMap>
+
+    <select id="getAllOrders" resultMap="OrderResultMap">
+        SELECT * FROM ORDERS
+    </select>
+
+    <select id="getOrderById" resultMap="OrderResultMap">
+        SELECT * FROM ORDERS WHERE ID = #{order_id}
+    </select>
+
+    <update id="updateOrder" parameterType="com.grocery.model.Order">
+        UPDATE ORDERS
+        SET
+        status = #{order_status}
+        WHERE id = #{order_id}
+        and user_id = #{user_id}
+    </update>
+    
+    <insert id="addOrder" parameterType="com.grocery.model.Order"
+        useGeneratedKeys="true" keyProperty="order_id">
+        INSERT INTO ORDERS (user_id, total_price, status)
+        VALUES
+        (#{user_id}, #{order_price}, #{order_status})
+    </insert>
+    
+    <delete id="deleteOrder" parameterType="int">
+        DELETE FROM ORDERS WHERE id = #{order_id}
+    </delete>
+    
+</mapper>
